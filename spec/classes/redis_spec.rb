@@ -50,6 +50,7 @@ describe 'redis', :type => 'class' do
                                              :group => 'root')
       should contain_file('redis-init-6379').with_content(/^REDIS_BIND_ADDRESS="127.0.0.1"$/)
       should contain_file('redis-init-6379').with_content(/^CLIEXEC="\/opt\/redis\/bin\/redis-cli -h \$REDIS_BIND_ADDRESS -p \$REDIS_PORT/)
+      should_not contain_file('redis-init-6379').with_content(/^maxmemory-policy .*$/)
 
       # These values were changed in 2.6.
       should_not contain_file('redis_port_6379.conf').with_content(/maxclients 0/)
@@ -182,7 +183,8 @@ describe 'redis', :type => 'class' do
         :redis_slowlog_log_slower_than => '5000',
         :redis_slowlog_max_len         => '4096',
         :redis_password                => 'sekrit',
-        :redis_saves                   => ['save 17 42', 'save 1 2']
+        :redis_saves                   => ['save 17 42', 'save 1 2'],
+        :redis_memory_policy           => 'allkeys-lru'
       }
     end # let
 
@@ -201,6 +203,7 @@ describe 'redis', :type => 'class' do
       should contain_file('redis_port_8000.conf').with_content(/^requirepass sekrit$/)
       should contain_file('redis_port_8000.conf').with_content(/^save 17 42$/)
       should contain_file('redis_port_8000.conf').with_content(/^save 1 2$/)
+      should contain_file('redis_port_8000.conf').with_content(/^maxmemory-policy allkeys-lru$/)
     end # it
   end # context
 end # describe

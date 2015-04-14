@@ -164,7 +164,7 @@ requirepass <%= @redis_password %>
 # It is also possilbe to completely kill a command renaming it into
 # an empty string:
 #
-# rename-command CONFIG 
+# rename-command CONFIG
 
 ################################### LIMITS ####################################
 
@@ -221,6 +221,9 @@ maxmemory <%= @redis_max_memory %>
 # The default is:
 #
 # maxmemory-policy volatile-lru
+<% if @redis_memory_policy %>
+maxmemory-policy <%= @redis_memory_policy %>
+<% end %>
 
 # LRU and minimal TTL algorithms are not precise algorithms but approximated
 # algorithms (in order to save memory), so you can select as well the sample
