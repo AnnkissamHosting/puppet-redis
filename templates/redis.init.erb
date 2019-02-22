@@ -44,7 +44,7 @@ stop()
     else
         PID=$(cat $PIDFILE)
         echo "Stopping ..."
-        $CLIEXEC shutdown || /bin/true
+        $CLIEXEC shutdown save || /bin/true
         while [ -x /proc/${PID} ]
         do
             echo "Waiting for Redis to shutdown ..."
